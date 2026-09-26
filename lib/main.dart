@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'providers/cart_provider.dart';
 import 'screens/auth_gate.dart';
 import 'utils/app_theme.dart';
 
@@ -17,11 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Higop',
-      debugShowCheckedModeBanner: false,
-      theme: HigopTheme.light,
-      home: const AuthGate(),
+    return ChangeNotifierProvider(
+      create: (_) => CartProvider(),
+      child: MaterialApp(
+        title: 'Higop',
+        debugShowCheckedModeBanner: false,
+        theme: HigopTheme.light,
+        home: const AuthGate(),
+      ),
     );
   }
 }
