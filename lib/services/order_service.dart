@@ -42,4 +42,18 @@ class OrderService {
         .snapshots()
         .map((snap) => snap.docs.map(AppOrder.fromDoc).toList());
   }
+
+  // READ (admin): live list of every order, newest first.
+  Stream<List<AppOrder>> watchAllOrders() {
+    return _db
+        .collection('orders')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snap) => snap.docs.map(AppOrder.fromDoc).toList());
+  }
+
+  // UPDATE (admin): change an order's status.
+  Future<void> updateStatus(String orderId, String status) {
+    return _db.collection('orders').doc(orderId).update({'status': status});
+  }
 }
