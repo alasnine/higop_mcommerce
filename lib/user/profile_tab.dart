@@ -3,6 +3,7 @@ import '../models/app_user.dart';
 import '../models/order.dart';
 import '../services/auth_service.dart';
 import '../services/order_service.dart';
+import '../utils/app_theme.dart';
 
 class ProfileTab extends StatelessWidget {
   final AppUser user;
@@ -11,9 +12,9 @@ class ProfileTab extends StatelessWidget {
   Color _statusColor(String status) {
     switch (status) {
       case 'Delivered':
-        return Colors.green.shade700;
+        return HigopColors.dahon;
       case 'Processing':
-        return Colors.orange.shade700;
+        return HigopColors.ginto;
       default:
         return Colors.grey.shade700;
     }

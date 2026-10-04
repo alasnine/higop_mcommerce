@@ -53,6 +53,21 @@ class HigopTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(foregroundColor: HigopColors.kayumanggi),
       ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: HigopColors.kayumanggi,
+        foregroundColor: Colors.white,
+      ),
+      dataTableTheme: DataTableThemeData(
+        headingRowColor: WidgetStateProperty.all(HigopColors.abaka),
+        headingTextStyle: const TextStyle(
+          color: HigopColors.tsokolate,
+          fontWeight: FontWeight.bold,
+        ),
+        dataRowColor: WidgetStateProperty.all(Colors.white),
+      ),
+      dialogTheme: DialogThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
     );
   }
 }

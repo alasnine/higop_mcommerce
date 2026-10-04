@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/order.dart';
 import '../services/order_service.dart';
+import '../utils/app_theme.dart';
 
 class OrdersTab extends StatelessWidget {
   const OrdersTab({super.key});
@@ -10,9 +11,9 @@ class OrdersTab extends StatelessWidget {
   Color _statusColor(String status) {
     switch (status) {
       case 'Delivered':
-        return Colors.green.shade700;
+        return HigopColors.dahon;
       case 'Processing':
-        return Colors.orange.shade700;
+        return HigopColors.ginto;
       default:
         return Colors.grey.shade700;
     }

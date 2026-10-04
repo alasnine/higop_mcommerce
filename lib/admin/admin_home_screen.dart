@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/app_user.dart';
 import '../services/auth_service.dart';
+import '../utils/app_theme.dart';
 import 'products_tab.dart';
 import 'orders_tab.dart';
 import 'users_tab.dart';
@@ -32,7 +33,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               selectedIndex: _index,
               onDestinationSelected: (i) => setState(() => _index = i),
               extended: true,
-              backgroundColor: const Color(0xFF3B2314), // tsokolate
+              backgroundColor: HigopColors.tsokolate,
               selectedIconTheme: const IconThemeData(color: Colors.white),
               unselectedIconTheme: IconThemeData(color: Colors.white.withValues(alpha: 0.6)),
               selectedLabelTextStyle: const TextStyle(color: Colors.white),
@@ -41,7 +42,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Column(
                   children: [
-                    const Icon(Icons.local_cafe, color: Colors.white, size: 32),
+                    const Icon(Icons.local_cafe, color: HigopColors.ginto, size: 32),
                     const SizedBox(height: 8),
                     const Text('HIGOP ADMIN',
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
