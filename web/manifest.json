@@ -1,6 +1,6 @@
 {
-    "name": "mcommerce_app",
-    "short_name": "mcommerce_app",
+    "name": "HIGOP",
+    "short_name": "HIGOP",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

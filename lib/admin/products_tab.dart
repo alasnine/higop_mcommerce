@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../services/product_service.dart';
 import 'product_form_dialog.dart';
+import 'widgets/admin_table_scroll.dart';
 
 class ProductsTab extends StatelessWidget {
   const ProductsTab({super.key});
@@ -70,58 +71,54 @@ class ProductsTab extends StatelessWidget {
             return const Center(child: Text('No products yet. Tap + to add one.'));
           }
 
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text('Image')),
-                  DataColumn(label: Text('Name')),
-                  DataColumn(label: Text('Category')),
-                  DataColumn(label: Text('Price')),
-                  DataColumn(label: Text('Stock')),
-                  DataColumn(label: Text('Actions')),
-                ],
-                rows: products.map((p) {
-                  final soldOut = p.stock <= 0;
-                  return DataRow(cells: [
-                    DataCell(
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
-                        child: p.imageUrl.isEmpty
-                            ? Container(width: 40, height: 40, color: Colors.grey.shade300)
-                            : Image.network(p.imageUrl,
-                                width: 40, height: 40, fit: BoxFit.cover,
-                                errorBuilder: (_, _, _) =>
-                                    Container(width: 40, height: 40, color: Colors.grey.shade300)),
-                      ),
+          return AdminTableScroll(
+            table: DataTable(
+              columns: const [
+                DataColumn(label: Text('Image')),
+                DataColumn(label: Text('Name')),
+                DataColumn(label: Text('Category')),
+                DataColumn(label: Text('Price')),
+                DataColumn(label: Text('Stock')),
+                DataColumn(label: Text('Actions')),
+              ],
+              rows: products.map((p) {
+                final soldOut = p.stock <= 0;
+                return DataRow(cells: [
+                  DataCell(
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: p.imageUrl.isEmpty
+                          ? Container(width: 40, height: 40, color: Colors.grey.shade300)
+                          : Image.network(p.imageUrl,
+                              width: 40, height: 40, fit: BoxFit.cover,
+                              errorBuilder: (_, _, _) =>
+                                  Container(width: 40, height: 40, color: Colors.grey.shade300)),
                     ),
-                    DataCell(Text(p.productName)),
-                    DataCell(Text(p.category)),
-                    DataCell(Text('₱${p.price.toStringAsFixed(2)}')),
-                    DataCell(Text(
-                      soldOut ? 'SOLD OUT' : '${p.stock}',
-                      style: TextStyle(color: soldOut ? Colors.red : null),
-                    )),
-                    DataCell(Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit_outlined, size: 20),
-                          tooltip: 'Edit',
-                          onPressed: () => _openForm(context, existing: p),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete_outline, size: 20),
-                          color: Colors.red.shade700,
-                          tooltip: 'Delete',
-                          onPressed: () => _confirmDelete(context, p),
-                        ),
-                      ],
-                    )),
-                  ]);
-                }).toList(),
-              ),
+                  ),
+                  DataCell(Text(p.productName)),
+                  DataCell(Text(p.category)),
+                  DataCell(Text('₱${p.price.toStringAsFixed(2)}')),
+                  DataCell(Text(
+                    soldOut ? 'SOLD OUT' : '${p.stock}',
+                    style: TextStyle(color: soldOut ? Colors.red : null),
+                  )),
+                  DataCell(Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit_outlined, size: 20),
+                        tooltip: 'Edit',
+                        onPressed: () => _openForm(context, existing: p),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete_outline, size: 20),
+                        color: Colors.red.shade700,
+                        tooltip: 'Delete',
+                        onPressed: () => _confirmDelete(context, p),
+                      ),
+                    ],
+                  )),
+                ]);
+              }).toList(),
             ),
           );
         },

@@ -4,11 +4,13 @@ import '../models/product.dart';
 import '../services/product_service.dart';
 import '../utils/constants.dart';
 import '../widgets/product_card.dart';
+import '../widgets/higop_header.dart';
 import 'product_details_screen.dart';
 
 class ShopTab extends StatefulWidget {
-  final AppUser user;
-  const ShopTab({super.key, required this.user});
+  final AppUser? user; // null = browsing as a guest
+  final VoidCallback? onRequireLogin; // shown as a "Log In" button for guests
+  const ShopTab({super.key, this.user, this.onRequireLogin});
 
   @override
   State<ShopTab> createState() => _ShopTabState();
@@ -22,32 +24,16 @@ class _ShopTabState extends State<ShopTab> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final firstName = widget.user.name.trim().split(' ').first;
+    final firstName = widget.user?.name.trim().split(' ').first;
 
     return Column(
       children: [
-        // Header
-        Container(
-          width: double.infinity,
-          color: cs.primary,
-          padding: EdgeInsets.fromLTRB(
-              20, MediaQuery.paddingOf(context).top + 20, 20, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Hi, $firstName',
-                  style: const TextStyle(color: Colors.white70, fontSize: 16)),
-              const SizedBox(height: 4),
-              const Text(
-                'Higop na? Pick your drink.',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+        // Header: wordmark logo, "Log In" button only for guests
+        HigopHeader(
+          onLoginTap: widget.user == null ? widget.onRequireLogin : null,
+          tagline: firstName != null
+              ? 'Hi, $firstName! Higop muna.'
+              : 'Higop muna. Pick your drink.',
         ),
 
         // Category chips (tap a selected chip again to show everything)

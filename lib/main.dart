@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => CartProvider(),
       child: MaterialApp(
-        title: 'Higop',
+        title: 'HIGOP',
         debugShowCheckedModeBanner: false,
         theme: HigopTheme.light,
         home: const AuthGate(),

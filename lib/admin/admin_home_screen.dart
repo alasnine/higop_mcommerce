@@ -20,6 +20,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   static const _sections = ['Products', 'Orders', 'Users'];
   static const _icons = [Icons.local_cafe, Icons.receipt_long, Icons.people];
 
+  // Same cream tone as the wordmark image's own background, so the badge
+  // blends directly into the sidebar instead of sitting on a dark card.
+  static const _sidebarBg = Color(0xFFEBE1D2);
+
   @override
   Widget build(BuildContext context) {
     final pages = const [ProductsTab(), OrdersTab(), UsersTab()];
@@ -33,21 +37,41 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               selectedIndex: _index,
               onDestinationSelected: (i) => setState(() => _index = i),
               extended: true,
-              backgroundColor: HigopColors.tsokolate,
-              selectedIconTheme: const IconThemeData(color: Colors.white),
-              unselectedIconTheme: IconThemeData(color: Colors.white.withValues(alpha: 0.6)),
-              selectedLabelTextStyle: const TextStyle(color: Colors.white),
-              unselectedLabelTextStyle: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+              backgroundColor: _sidebarBg,
+              selectedIconTheme: const IconThemeData(color: HigopColors.kayumanggi),
+              unselectedIconTheme: IconThemeData(
+                color: HigopColors.tsokolate.withValues(alpha: 0.55),
+              ),
+              selectedLabelTextStyle: const TextStyle(
+                color: HigopColors.tsokolate,
+                fontWeight: FontWeight.bold,
+              ),
+              unselectedLabelTextStyle: TextStyle(
+                color: HigopColors.tsokolate.withValues(alpha: 0.7),
+              ),
+              indicatorColor: HigopColors.kayumanggi.withValues(alpha: 0.15),
               leading: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
                 child: Column(
                   children: [
-                    const Icon(Icons.local_cafe, color: HigopColors.ginto, size: 32),
-                    const SizedBox(height: 8),
-                    const Text('HIGOP ADMIN',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    Image.asset(
+                      'assets/icon/higop_wordmark.png',
+                      width: 140,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 10),
+                    Text('ADMIN',
+                        style: TextStyle(
+                          color: HigopColors.tsokolate.withValues(alpha: 0.75),
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                          fontSize: 12,
+                        )),
                     Text(widget.user.name,
-                        style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12)),
+                        style: TextStyle(
+                          color: HigopColors.tsokolate.withValues(alpha: 0.6),
+                          fontSize: 12,
+                        )),
                   ],
                 ),
               ),
@@ -57,7 +81,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 24),
                     child: IconButton(
-                      icon: const Icon(Icons.logout, color: Colors.white70),
+                      icon: Icon(Icons.logout,
+                          color: HigopColors.tsokolate.withValues(alpha: 0.75)),
                       tooltip: 'Logout',
                       onPressed: () => AuthService().logout(),
                     ),

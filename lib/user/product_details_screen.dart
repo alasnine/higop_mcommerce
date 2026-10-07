@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
+import '../screens/login_screen.dart';
 import '../utils/constants.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -16,6 +18,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late String _size;
   late String _sugar;
   late String _topping;
+  late String _temperature;
+
+  bool get _isCoffee => widget.product.category == 'Coffee';
 
   @override
   void initState() {
@@ -24,6 +29,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     _size = AppConstants.sizes.keys.first; // Small
     _sugar = AppConstants.sugarLevels[2]; // 50%
     _topping = AppConstants.toppings.keys.first; // None
+    _temperature = AppConstants.temperatures.first; // Iced
   }
 
   double get _currentUnitPrice {
@@ -32,12 +38,46 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return widget.product.price + sizeAddOn + toppingAddOn;
   }
 
+  Future<void> _promptLogin() async {
+    final goToLogin = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Log in required'),
+        content: const Text(
+            'Please log in or create an account to add items to your cart.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Log In'),
+          ),
+        ],
+      ),
+    );
+    if (goToLogin == true && mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+      );
+    }
+  }
+
   void _addToOrder() {
+    // Guests can browse freely, but adding to cart requires an account,
+    // since the cart is tied to a signed-in user at checkout.
+    if (FirebaseAuth.instance.currentUser == null) {
+      _promptLogin();
+      return;
+    }
+
     context.read<CartProvider>().addItem(
           product: widget.product,
           size: _size,
           sugar: _sugar,
           topping: _topping,
+          temperature: _isCoffee ? _temperature : null,
         );
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -95,6 +135,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   const SizedBox(height: 24),
 
+                  if (_isCoffee) ...[
+                    _OptionDropdown(
+                      label: 'Hot / Iced',
+                      value: _temperature,
+                      options: AppConstants.temperatures,
+                      onChanged: (v) => setState(() => _temperature = v),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                   _OptionDropdown(
                     label: 'Size',
                     value: _size,

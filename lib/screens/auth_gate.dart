@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../admin/admin_home_screen.dart';
 import '../models/app_user.dart';
 import '../services/auth_service.dart';
+import '../user/guest_shell.dart';
 import '../user/home_screen.dart';
 import 'login_screen.dart';
 
@@ -20,7 +22,12 @@ class AuthGate extends StatelessWidget {
           return const _Loading();
         }
         final user = authSnap.data;
-        if (user == null) return const LoginScreen();
+
+        if (user == null) {
+          // Web is the admin dashboard, so it goes straight to Login.
+          // Mobile is the customer app, so browsing works without an account.
+          return kIsWeb ? const LoginScreen() : const GuestShell();
+        }
 
         // Layer 2: who are they? Read their role from Firestore.
         return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
