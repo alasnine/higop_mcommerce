@@ -1,1 +1,40 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"higop-mcommerce","appId":"1:312627029897:android:2ee3e67aa1901e03892358","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"higop-mcommerce","configurations":{"android":"1:312627029897:android:2ee3e67aa1901e03892358","ios":"1:312627029897:ios:41661abab93bf4d3892358","macos":"1:312627029897:ios:41661abab93bf4d3892358","web":"1:312627029897:web:c398279ddc74d48b892358","windows":"1:312627029897:web:0f2a9bb4e7abf3a9892358"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "higop-mcommerce",
+          "appId": "1:312627029897:android:2ee3e67aa1901e03892358",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "higop-mcommerce",
+          "configurations": {
+            "android": "1:312627029897:android:2ee3e67aa1901e03892358",
+            "ios": "1:312627029897:ios:41661abab93bf4d3892358",
+            "macos": "1:312627029897:ios:41661abab93bf4d3892358",
+            "web": "1:312627029897:web:c398279ddc74d48b892358",
+            "windows": "1:312627029897:web:0f2a9bb4e7abf3a9892358"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "site": "higop-mcommerce",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
